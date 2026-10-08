@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Third-party skill payload (ui-ux-pro-max): reference material and its
+    // own .cjs/.py tooling, not part of this app's source.
+    ".claude/**",
   ]),
 ]);
 

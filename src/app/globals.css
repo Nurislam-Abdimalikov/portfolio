@@ -1,26 +1,374 @@
 @import "tailwindcss";
 
+/* Theme is driven by `data-theme` on <html>, not by prefers-color-scheme. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ---------------------------------------------------------------
+   Liquid Glass (macOS Tahoe)
+
+   The material only reads as glass when there is something vivid
+   behind it to refract, so a saturated wallpaper sits at the back and
+   every panel samples it through `backdrop-filter` with a saturation
+   boost plus a specular rim along the top edge.
+   --------------------------------------------------------------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* wallpaper */
+  --wall-1: #6f9bff;
+  --wall-2: #ff86c8;
+  --wall-3: #37dcc8;
+  --wall-4: #ffd36e;
+  --wall-base: linear-gradient(155deg, #eef2ff 0%, #f9edff 55%, #eafaf7 100%);
+  --wall-alpha: 1;
+  --grain-opacity: 0.2;
+
+  /* glass material */
+  --glass-bg: rgb(255 255 255 / 0.52);
+  --glass-bg-soft: rgb(255 255 255 / 0.4);
+  --glass-edge: rgb(255 255 255 / 0.55);
+  --rim-top: rgb(255 255 255 / 0.9);
+  --rim-side: rgb(255 255 255 / 0.4);
+  --rim-bottom: rgb(255 255 255 / 0.35);
+  --drop: 0 18px 50px rgb(20 24 60 / 0.13), 0 3px 10px rgb(20 24 60 / 0.07);
+  --drop-sm: 0 2px 8px rgb(20 24 60 / 0.07);
+  --drop-hover: 0 26px 70px rgb(20 24 60 / 0.2), 0 6px 16px rgb(20 24 60 / 0.1);
+  --sheen: rgb(255 255 255 / 0.5);
+
+  /* ink */
+  --fg: #0d1020;
+  --fg-muted: #3b4166;
+  --fg-subtle: #5a6085;
+  --accent: #3b63ea;
+  --accent-grad: linear-gradient(180deg, #4f7bff, #3b63ea);
+  --on-accent: #ffffff;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root[data-theme="dark"] {
+  --wall-1: #2a4fd8;
+  --wall-2: #c43da0;
+  --wall-3: #0f8f84;
+  --wall-4: #b07a1e;
+  --wall-base: linear-gradient(155deg, #0a0e24 0%, #140a2e 55%, #06151c 100%);
+  --wall-alpha: 0.72;
+  --grain-opacity: 0.3;
+
+  /*
+   * Dark glass tints DOWN, not up. A near-transparent white fill over a
+   * bright patch of wallpaper leaves light text on a light ground — the
+   * navbar links were unreadable over the magenta corner. A dark translucent
+   * fill keeps the refraction while guaranteeing the panel stays dark.
+   */
+  --glass-bg: rgb(11 15 38 / 0.46);
+  --glass-bg-soft: rgb(11 15 38 / 0.34);
+  --glass-edge: rgb(255 255 255 / 0.16);
+  --rim-top: rgb(255 255 255 / 0.35);
+  --rim-side: rgb(255 255 255 / 0.12);
+  --rim-bottom: rgb(255 255 255 / 0.08);
+  --drop: 0 18px 50px rgb(0 0 0 / 0.45), 0 3px 10px rgb(0 0 0 / 0.3);
+  --drop-sm: 0 2px 8px rgb(0 0 0 / 0.3);
+  --drop-hover: 0 26px 70px rgb(0 0 0 / 0.55), 0 6px 16px rgb(0 0 0 / 0.4);
+  --sheen: rgb(255 255 255 / 0.13);
+
+  --fg: #f2f4ff;
+  --fg-muted: #b8c0e4;
+  --fg-subtle: #9aa2cc;
+  --accent: #6f93ff;
+  --accent-grad: linear-gradient(180deg, #5d84ff, #3f66ef);
+  --on-accent: #ffffff;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@theme {
+  /* Mapped through the runtime variables above so both themes work. */
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-subtle: var(--fg-subtle);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --animate-marquee: marquee 40s linear infinite;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ---------------------------------------------------------------
+   Base
+   --------------------------------------------------------------- */
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* fixed navbar height + breathing room, so #anchors never hide */
+    scroll-padding-top: 7rem;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    /*
+     * Kills sideways scrolling for the whole page. This value propagates to
+     * the viewport, so `body` must NOT repeat it: a second `overflow-x` makes
+     * body its own scroll container, and wheel/trackpad gestures then stop
+     * chaining up to the document scroller. Keep it on `html` alone.
+     */
+    overflow-x: hidden;
+    background-color: #eef2ff;
+  }
+
+  /* Painted behind the wallpaper so overscroll never flashes white. */
+  html[data-theme="dark"] {
+    background-color: #0a0e24;
+  }
+
+  body {
+    color: var(--fg);
+    /*
+     * Reference the next/font variable directly rather than `--font-sans`:
+     * Tailwind v4 drops theme variables that no utility references, and
+     * `--font-sans` is only read from this rule, so it gets tree-shaken away
+     * and the page silently falls back to the system stack.
+     */
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 450;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-weight: 680;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--accent) 28%, transparent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------
+   Utilities
+   --------------------------------------------------------------- */
+
+/* Honour the notch / home-bar on iOS */
+@utility safe-x {
+  padding-left: max(1.25rem, env(safe-area-inset-left));
+  padding-right: max(1.25rem, env(safe-area-inset-right));
+}
+
+@utility safe-b {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+@utility safe-t {
+  padding-top: max(0.5rem, env(safe-area-inset-top));
+}
+
+/**
+ * The glass material. `backdrop-filter` is expensive, so this is reserved
+ * for large panels — chips and small controls use `glass-chip`, which fakes
+ * the look with a translucent fill and no blur.
+ */
+@utility glass {
+  background-color: var(--glass-bg);
+  -webkit-backdrop-filter: blur(28px) saturate(185%);
+  backdrop-filter: blur(28px) saturate(185%);
+  border: 0.5px solid var(--glass-edge);
+  box-shadow:
+    inset 0 1.5px 0 var(--rim-top),
+    inset 0 -1px 0 var(--rim-bottom),
+    inset 1px 0 0 var(--rim-side),
+    inset -1px 0 0 var(--rim-side),
+    var(--drop);
+}
+
+@utility glass-soft {
+  background-color: var(--glass-bg-soft);
+  -webkit-backdrop-filter: blur(20px) saturate(175%);
+  backdrop-filter: blur(20px) saturate(175%);
+  border: 0.5px solid var(--glass-edge);
+  box-shadow:
+    inset 0 1px 0 var(--rim-top),
+    var(--drop-sm);
+}
+
+/** No blur — cheap enough to use dozens of times. */
+@utility glass-chip {
+  background-color: var(--glass-bg);
+  border: 0.5px solid var(--glass-edge);
+  box-shadow:
+    inset 0 1px 0 var(--rim-top),
+    var(--drop-sm);
+}
+
+/** Primary control: tinted, with its own specular top edge. */
+@utility accent-fill {
+  background-image: var(--accent-grad);
+  color: var(--on-accent);
+  box-shadow:
+    inset 0 1.5px 0 rgb(255 255 255 / 0.45),
+    0 8px 22px color-mix(in oklab, var(--accent) 40%, transparent);
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Effects
+   --------------------------------------------------------------- */
+
+/**
+ * Cursor-tracked specular highlight — the signature Liquid Glass move.
+ * Drawn on ::after so no extra DOM is needed, and gated to real pointers so
+ * phones never get a highlight stuck wherever the last tap landed.
+ */
+@utility sheen {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+    background: radial-gradient(
+      260px circle at var(--mx, 50%) var(--my, 50%),
+      var(--sheen),
+      transparent 70%
+    );
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover::after {
+      opacity: 1;
+    }
+  }
+}
+
+/**
+ * Hover lift for glass panels — shadow and rim only, deliberately no
+ * transform: translating an element that also carries `backdrop-filter`
+ * makes Chrome resample the backdrop incorrectly.
+ */
+@utility lift {
+  transition: box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      box-shadow:
+        inset 0 1.5px 0 var(--rim-top),
+        inset 0 -1px 0 var(--rim-bottom),
+        inset 1px 0 0 var(--rim-side),
+        inset -1px 0 0 var(--rim-side),
+        var(--drop-hover);
+    }
+  }
+}
+
+/** Light sweeping across a filled control on hover. */
+@utility shine {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: -20%;
+    bottom: -20%;
+    left: -70%;
+    width: 45%;
+    pointer-events: none;
+    transform: skewX(-20deg);
+    background: linear-gradient(
+      100deg,
+      transparent,
+      rgb(255 255 255 / 0.45),
+      transparent
+    );
+    transition: left 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover::after {
+      left: 135%;
+    }
+  }
+}
+
+@utility press {
+  transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+/* Let a reader stop the ticker to actually read it. */
+@media (hover: hover) and (pointer: fine) {
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Theme switch: circular reveal from the toggle button
+   --------------------------------------------------------------- */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* The incoming theme is clipped open over the outgoing one. */
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
 }
