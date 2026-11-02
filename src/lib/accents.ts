@@ -1,4 +1,4 @@
-export type Accent = "blue" | "purple" | "teal" | "amber";
+export type Accent = "blue" | "purple" | "teal" | "amber" | "green" | "indigo";
 
 /**
  * Soft tints that sit on the glass without fighting it.
@@ -25,5 +25,16 @@ export const ACCENT: Record<Accent, { text: string; dot: string; bar: string }> 
     text: "text-[#9a6a10] dark:text-[#f5c266]",
     dot: "bg-[#c7901f]",
     bar: "bg-gradient-to-r from-[#ffcf6b] to-[#c7901f]",
+  },
+  // Sampled from Jolduu's App Store art: indigo buttons, blue → violet → magenta wash.
+  indigo: {
+    text: "text-[#5d55e7] dark:text-[#a9a3ff]",
+    dot: "bg-[#5d55e7]",
+    bar: "bg-gradient-to-r from-[#4e46e4] via-[#7950d6] to-[#a8357c]",
+  },
+  green: {
+    text: "text-[#15803d] dark:text-[#4ade80]",
+    dot: "bg-[#16a34a]",
+    bar: "bg-gradient-to-r from-[#4ade80] to-[#16a34a]",
   },
 };

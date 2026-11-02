@@ -1,5 +1,17 @@
+import type { StaticImageData } from "next/image";
 import type { Accent } from "@/lib/accents";
 import type { L } from "@/lib/i18n";
+/*
+ * Static imports, not /public paths: Next.js hashes the file contents into the
+ * URL, so replacing a screenshot always ships under a new address. With a
+ * plain /public path the optimizer keeps serving its cached copy of the old
+ * file — even across rebuilds — until the cache TTL runs out.
+ */
+import jolduuShot from "@/assets/apps/jolduu.jpg";
+import kitebiShot from "@/assets/apps/kitebi.jpg";
+import namazShot from "@/assets/apps/namaz.jpg";
+import satuuShot from "@/assets/apps/satuu.jpg";
+import streakShot from "@/assets/apps/streak.jpg";
 
 export type Project = {
   id: string;
@@ -15,7 +27,14 @@ export type Project = {
   summary: L;
   features: L[];
   /** Real App Store screenshot shown inside the phone mockup. */
-  shot: string;
+  shot: StaticImageData;
+  /**
+   * "screen" — a bare UI capture, framed as an iPhone.
+   * "poster" — the store's own marketing art, which already draws a device
+   * and callouts that overhang it; cropping to the screen would slice those
+   * callouts in half, so it is shown whole, the way the App Store shows it.
+   */
+  shotStyle?: "screen" | "poster";
   shotAlt: L;
 };
 
@@ -61,7 +80,7 @@ export const PROJECTS: Project[] = [
         ru: "Веб-платформа на Next.js — satuu.kg",
       },
     ],
-    shot: "/apps/satuu.jpg",
+    shot: satuuShot,
     shotAlt: {
       en: "Satuu.kg listings catalog running on iPhone",
       ru: "Каталог объявлений Satuu.kg на iPhone",
@@ -70,28 +89,68 @@ export const PROJECTS: Project[] = [
   {
     id: "jolduu",
     name: "Jolduu",
-    accent: "purple",
-    badge: { en: "Startup • Live in App Store", ru: "Стартап • Уже в App Store" },
-    meta: { en: "iOS · Live in the App Store", ru: "iOS · Опубликовано в App Store" },
-    stack: ["React Native CLI", "TypeScript", "Geolocation", "REST API"],
-    appStoreUrl: "https://apps.apple.com/us/app/jolduu/id6787068282",
+    accent: "indigo",
+    badge: { en: "City & Intercity Service • New design", ru: "Город и межгород • Новый дизайн" },
+    meta: { en: "iOS · v1.0.1 Live in the App Store", ru: "iOS · v1.0.1 в App Store" },
+    stack: ["React Native CLI", "TypeScript", "Geolocation", "REST API", "Reanimated"],
+    appStoreUrl: "https://apps.apple.com/ga/app/jolduu/id6787068282",
     summary: {
-      en: "Ride-sharing and intercity travel startup app. Intuitive booking flows, driver/passenger matching, and seamless API integration.",
-      ru: "Стартап-сервис совместных поездок и междугородних маршрутов. Разработка UI, гео-навигация и интеграция с сервером.",
+      en: "A full city and intercity mobility service in one app: taxi in five car classes, car and moto delivery, and freight up to 300 kg with loaders. Fares are shown up front with no hidden surcharges, and an order takes a couple of taps.",
+      ru: "Полноценный городской и междугородний сервис в одном приложении: такси пяти классов, доставка на авто и мото и грузоперевозки до 300 кг с грузчиками. Цена известна заранее, без скрытых доплат, а заказ — в пару касаний.",
     },
     features: [
-      { en: "Driver and passenger matching flows", ru: "Матчинг водителей и пассажиров" },
-      { en: "Live geolocation and route handling", ru: "Живая геолокация и работа с маршрутами" },
       {
-        en: "Booking funnel built for one-handed use",
-        ru: "Воронка брони под управление одной рукой",
+        en: "Taxi (5 car classes), car/moto delivery and freight up to 300 kg with loaders",
+        ru: "Такси (5 классов авто), доставка (авто/мото) и грузоперевозки до 300 кг с грузчиками",
       },
-      { en: "Seamless REST API integration", ru: "Бесшовная интеграция с REST API" },
+      {
+        en: "Transparent pricing — fare known in advance, no hidden surcharges",
+        ru: "Прозрачное ценообразование — цена известна заранее, без скрытых доплат",
+      },
+      {
+        en: "Interactive map with live route tracking",
+        ru: "Интерактивная карта и лайв-трекинг маршрута",
+      },
+      { en: "Order placed in a couple of taps", ru: "Заказ в пару касаний" },
     ],
-    shot: "/apps/jolduu.jpg",
+    shot: jolduuShot,
+    shotStyle: "poster",
     shotAlt: {
-      en: "Jolduu ride-booking map screen on iPhone",
-      ru: "Экран заказа поездки Jolduu на iPhone",
+      en: "Jolduu App Store art: fare known in advance — route on a live map and taxi classes from 98 som",
+      ru: "Иллюстрация Jolduu из App Store: цена известна заранее — маршрут на карте и классы такси от 98 сом",
+    },
+  },
+  {
+    id: "kitebi",
+    name: "Namaz Kitebi",
+    accent: "green",
+    badge: { en: "Lifestyle & Education • v1.0.2 Live", ru: "Лайфстайл и обучение • v1.0.2 в сторе" },
+    meta: { en: "iOS · Version 1.0.2 in the App Store", ru: "iOS · Версия 1.0.2 в App Store" },
+    stack: ["React Native CLI", "TypeScript", "Local Storage", "Custom Typography"],
+    appStoreUrl:
+      "https://apps.apple.com/ga/app/%D0%BD%D0%B0%D0%BC%D0%B0%D0%B7-%D0%BA%D0%B8%D1%82%D0%B5%D0%B1%D0%B8/id6810094989",
+    summary: {
+      en: "A modern mobile guide to prayer with intuitive navigation — lessons, step-by-step instructions and prayer times that work fully offline, in a clean, calm interface.",
+      ru: "Современное мобильное руководство по намазу с интуитивной навигацией — уроки, пошаговые инструкции и время намазов, которые работают полностью офлайн, в чистом и спокойном интерфейсе.",
+    },
+    features: [
+      {
+        en: "Modern, easy-to-follow prayer guide with intuitive navigation",
+        ru: "Современное и удобное руководство по намазу с интуитивной навигацией",
+      },
+      {
+        en: "Works 100% offline — no internet required",
+        ru: "Работает 100% офлайн — интернет не обязателен",
+      },
+      {
+        en: "Clean, aesthetic UI/UX with fast rendering and low battery use",
+        ru: "Чистый, эстетичный UI/UX, быстрый рендеринг и экономный расход батареи",
+      },
+    ],
+    shot: kitebiShot,
+    shotAlt: {
+      en: "Namaz Kitebi lessons screen with the five daily prayers on iPhone",
+      ru: "Экран уроков Намаз китеби с пятью намазами на iPhone",
     },
   },
   {
@@ -118,7 +177,7 @@ export const PROJECTS: Project[] = [
         ru: "Собственная UI-система, нулевая задержка",
       },
     ],
-    shot: "/apps/namaz.jpg",
+    shot: namazShot,
     shotAlt: {
       en: "Namaz Depteri daily prayer tracker on iPhone",
       ru: "Экран ежедневных намазов Namaz Depteri на iPhone",
@@ -154,7 +213,7 @@ export const PROJECTS: Project[] = [
         ru: "История привычек, читаемая с одного взгляда",
       },
     ],
-    shot: "/apps/streak.jpg",
+    shot: streakShot,
     shotAlt: {
       en: "Habit Tracker Streak statistics screen on iPhone",
       ru: "Экран статистики Habit Tracker Streak на iPhone",

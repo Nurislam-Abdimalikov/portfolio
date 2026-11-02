@@ -1,7 +1,7 @@
 import type { L } from "@/lib/i18n";
 
 export const STATS: { value: string; label: L }[] = [
-  { value: "4+", label: { en: "Live App Store apps", ru: "Приложения в App Store" } },
+  { value: "5+", label: { en: "Live App Store apps", ru: "Приложения в App Store" } },
   { value: "v1.6", label: { en: "Shipped to production", ru: "Доведено до продакшена" } },
   { value: "100%", label: { en: "Review approval", ru: "Одобрение ревью" } },
 ];

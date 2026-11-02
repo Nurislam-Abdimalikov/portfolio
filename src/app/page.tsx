@@ -3,6 +3,7 @@ import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { ScrollProgress } from "@/components/layout/scroll-progress";
 import { Approach } from "@/components/sections/approach";
+import { ClientWork } from "@/components/sections/client-work";
 import { Contact } from "@/components/sections/contact";
 import { Hero } from "@/components/sections/hero";
 import { Projects } from "@/components/sections/projects";
@@ -23,6 +24,7 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         <Projects />
+        <ClientWork />
         <Skills />
         <Approach />
         <Contact />

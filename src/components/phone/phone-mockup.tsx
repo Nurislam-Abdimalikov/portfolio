@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image, { type StaticImageData } from "next/image";
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
 import type { PointerEvent as ReactPointerEvent } from "react";
 
@@ -13,7 +13,16 @@ const SPRING = { stiffness: 220, damping: 22, mass: 0.6 };
  * The device tilts toward the cursor. Transform lives on the phone, never on
  * a glass ancestor, so no `backdrop-filter` is disturbed.
  */
-export function PhoneMockup({ src, alt }: { src: string; alt: string }) {
+export function PhoneMockup({
+  src,
+  alt,
+  variant = "screen",
+}: {
+  src: StaticImageData;
+  alt: string;
+  /** "poster" drops the device frame — the artwork already contains one. */
+  variant?: "screen" | "poster";
+}) {
   const reduce = useReducedMotion();
 
   // −0.5…0.5 relative to the centre of the device.
@@ -45,9 +54,17 @@ export function PhoneMockup({ src, alt }: { src: string; alt: string }) {
     >
       <motion.div
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="rounded-[2.9rem] bg-gradient-to-b from-white/70 via-white/25 to-white/50 p-[3px] shadow-[0_26px_60px_rgb(20_24_60/0.28)] dark:from-white/25 dark:via-white/8 dark:to-white/15"
+        className={
+          variant === "poster"
+            ? "rounded-[1.6rem] shadow-[0_26px_60px_rgb(20_24_60/0.32)]"
+            : "rounded-[2.9rem] bg-gradient-to-b from-white/70 via-white/25 to-white/50 p-[3px] shadow-[0_26px_60px_rgb(20_24_60/0.28)] dark:from-white/25 dark:via-white/8 dark:to-white/15"
+        }
       >
-        <div className="relative overflow-hidden rounded-[2.75rem] ring-1 ring-black/10">
+        <div
+          className={`relative overflow-hidden ring-1 ring-black/10 ${
+            variant === "poster" ? "rounded-[1.6rem]" : "rounded-[2.75rem]"
+          }`}
+        >
           <div className="relative aspect-[9/19.5] w-full select-none">
             <Image
               src={src}

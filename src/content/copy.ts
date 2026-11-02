@@ -33,19 +33,29 @@ export const T = {
     ru: "Портрет Нурислама Абдималикова",
   },
   shippingNow: { en: "Shipping now", ru: "В работе" },
-  appsLive: { en: "4+ apps live", ru: "4+ в сторе" },
+  appsLive: { en: "5+ apps live", ru: "5+ в сторе" },
 
   workEyebrow: { en: "Featured work", ru: "Избранные проекты" },
   workTitle: { en: "Live in the App Store", ru: "Уже в App Store" },
   workText: {
-    en: "Four production applications on real devices — not prototypes, not concepts. Every one of them passed App Review and serves real users today.",
-    ru: "Четыре продакшн-приложения на реальных устройствах — не прототипы и не концепты. Каждое прошло App Review и работает с живыми пользователями.",
+    en: "Five production applications on real devices — not prototypes, not concepts. Every one of them passed App Review and serves real users today.",
+    ru: "Пять продакшн-приложений на реальных устройствах — не прототипы и не концепты. Каждое прошло App Review и работает с живыми пользователями.",
   },
   stack: { en: "Stack", ru: "Стек" },
   highlights: { en: "Highlights", ru: "Ключевое" },
   appStore: { en: "Live on App Store", ru: "Доступно в App Store" },
   viewOnAppStore: { en: "View on App Store", ru: "Открыть в App Store" },
   visitWebsite: { en: "Visit website", ru: "Открыть сайт" },
+
+  webEyebrow: { en: "Web & client work", ru: "Веб и коммерческие проекты" },
+  webTitle: { en: "Web products for real businesses", ru: "Веб-продукты для реального бизнеса" },
+  webText: {
+    en: "Not only the App Store. Full-stack web platforms built for paying clients — designed, shipped and live in production.",
+    ru: "Не только App Store. Full-stack веб-платформы для реальных заказчиков — спроектированы, запущены и работают в продакшене.",
+  },
+  role: { en: "Role", ru: "Роль" },
+  clientReview: { en: "Client review", ru: "Отзыв клиента" },
+  translatedFromRu: { en: "Translated from Russian", ru: "" },
 
   skillsEyebrow: { en: "Toolkit", ru: "Инструментарий" },
   skillsTitle: { en: "Built on a deliberate stack", ru: "Осознанно выбранный стек" },

@@ -35,8 +35,8 @@ export const APPROACH: { icon: LucideIcon; accent: Accent; title: L; text: L }[]
     accent: "amber",
     title: { en: "Shipped, not demoed", ru: "Зарелизено, а не показано на демо" },
     text: {
-      en: "4 apps live, 6 production release cycles, 100% App Review approval. The work exists on real devices, in a real store, for real users.",
-      ru: "4 приложения в сторе, 6 релизных циклов, 100% одобрения App Review. Работа живёт на реальных устройствах, в реальном сторе, у реальных пользователей.",
+      en: "5 apps live, 6 production release cycles, 100% App Review approval. The work exists on real devices, in a real store, for real users.",
+      ru: "5 приложений в сторе, 6 релизных циклов, 100% одобрения App Review. Работа живёт на реальных устройствах, в реальном сторе, у реальных пользователей.",
     },
   },
 ];
