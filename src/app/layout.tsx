@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Nurislam Abdimalikov — Cross-Platform Mobile & Frontend Engineer",
   description:
-    "React Native & React engineer shipping production iOS apps to the App Store 4x faster with AI-native development and strict architecture. 4+ live App Store apps.",
+    "React Native & React engineer shipping production iOS apps to the App Store 4x faster with AI-native development and strict architecture. 5+ live App Store apps.",
   keywords: [
     "React Native",
     "React",
@@ -35,14 +35,14 @@ export const metadata: Metadata = {
     locale: "en_US",
     title: "Nurislam Abdimalikov — Cross-Platform Mobile & Frontend Engineer",
     description:
-      "Shipping production iOS apps 4x faster with AI-native development. 4+ live App Store apps.",
+      "Shipping production iOS apps 4x faster with AI-native development. 5+ live App Store apps.",
     siteName: "Nurislam Abdimalikov",
   },
   twitter: {
     card: "summary_large_image",
     title: "Nurislam Abdimalikov — Mobile & Frontend Engineer",
     description:
-      "React Native & React engineer. 4+ live App Store apps, shipped 4x faster.",
+      "React Native & React engineer. 5+ live App Store apps, shipped 4x faster.",
   },
 };
 

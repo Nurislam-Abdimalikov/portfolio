@@ -56,7 +56,7 @@ export function Navbar() {
             <span className="grid size-[30px] shrink-0 place-items-center rounded-[9px] bg-gradient-to-br from-[#4f7bff] to-[#9b5cff] text-[11px] font-bold text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.5),0_2px_6px_rgb(60_80_200/0.35)]">
               NA
             </span>
-            <span className="hidden text-[14.5px] font-semibold tracking-tight text-fg sm:block">
+            <span className="hidden text-[14.5px] font-semibold tracking-tight text-fg lg:block">
               Nurislam Abdimalikov
             </span>
           </a>
@@ -66,7 +66,7 @@ export function Navbar() {
               <a
                 key={item.id}
                 href={`#${item.id}`}
-                className="rounded-full px-3.5 py-2 text-[13.5px] font-medium text-fg-muted transition-colors hover:bg-white/50 hover:text-fg dark:hover:bg-white/10"
+                className="inline-flex min-h-11 items-center rounded-full px-3.5 text-[13.5px] font-medium text-fg-muted transition-colors hover:bg-white/50 hover:text-fg dark:hover:bg-white/10"
               >
                 {t(item.label)}
               </a>
@@ -78,7 +78,7 @@ export function Navbar() {
             <LangSwitch lang={lang} onChange={langStore.set} />
             <a
               href="#contact"
-              className="hidden min-h-10 items-center gap-1.5 rounded-full accent-fill shine press px-4 text-[13.5px] font-semibold sm:inline-flex"
+              className="hidden min-h-11 items-center gap-1.5 rounded-full accent-fill shine press px-4 text-[13.5px] font-semibold sm:inline-flex"
             >
               {t(T.navCta)}
               <ArrowUpRight className="size-4" aria-hidden />

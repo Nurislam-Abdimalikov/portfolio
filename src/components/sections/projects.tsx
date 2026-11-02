@@ -26,7 +26,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
         <div className="grid gap-9 p-6 sm:p-9 lg:grid-cols-2 lg:items-center lg:gap-12 lg:p-11">
           <div className={flipped ? "lg:order-2" : ""}>
-            <PhoneMockup src={project.shot} alt={t(project.shotAlt)} />
+            <PhoneMockup src={project.shot} alt={t(project.shotAlt)} variant={project.shotStyle} />
           </div>
 
           <div className={`min-w-0 ${flipped ? "lg:order-1" : ""}`}>
