@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Claude Code git worktrees live inside the repo; never track them.
+/.claude/worktrees/
